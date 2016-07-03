@@ -17,6 +17,8 @@
         android:id="@+id/txt_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="36sp"
+        tools:text="X"
         />
 
 </LinearLayout>
