@@ -57,6 +57,6 @@ That's all there is to it.
     See the License for the specific language governing permissions and
     limitations under the License.
 
- [quicksettings-docs]: https://youtu.be/AuuIB4cT2SA
+ [help-video]: https://youtu.be/AuuIB4cT2SA
  [companion]: https://github.com/hannesstruss/WindFish/releases
 
