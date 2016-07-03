@@ -14,7 +14,6 @@ public class WindFishTileService extends TileService {
 
   @Override public void onTileAdded() {
     super.onTileAdded();
-    updateTile();
   }
 
   @Override public void onStartListening() {
