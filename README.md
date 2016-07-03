@@ -37,5 +37,5 @@ And that's it!
 ##
 
  [quicksettings-docs]: https://developer.android.com/reference/android/service/quicksettings/Tile.html
- [companion]: app
+ [companion]: https://github.com/hannesstruss/WindFish/releases/tag/1.0
 
