@@ -32,7 +32,7 @@ public class MyApplication extends Application {
 }
 ```
 
-And that's it! See [the video of WindFish in action.][quicksettings-docs]
+And that's it! See [the video of WindFish in action. :tv:][quicksettings-docs]
 
 ##
 
