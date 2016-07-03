@@ -7,14 +7,16 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hannesstruss.windfish.common.Constants;
-import timber.log.Timber;
 
 public class WindFishStateService extends Service implements WindFishState.Listener {
+  private static final String TAG = WindFishStateService.class.getSimpleName();
+
   private final Messenger messenger = new Messenger(new IncomingHandler());
   private final List<Messenger> clients = new ArrayList<>();
 
@@ -38,8 +40,6 @@ public class WindFishStateService extends Service implements WindFishState.Liste
   class IncomingHandler extends Handler {
     @Override public void handleMessage(Message msg) {
       super.handleMessage(msg);
-      Timber.d("%s got message: %s", WindFishStateService.class.getSimpleName(), msg.what);
-
       switch (msg.what) {
         case Constants.MSG_REGISTER_CLIENT:
           try {
@@ -48,7 +48,7 @@ public class WindFishStateService extends Service implements WindFishState.Liste
               clients.add(msg.replyTo);
             }
           } catch (RemoteException e) {
-            Timber.e(e, "Couldn't notify client");
+            Log.e(TAG, "Couldn't notify client", e);
           }
           break;
 
@@ -60,7 +60,6 @@ public class WindFishStateService extends Service implements WindFishState.Liste
   }
 
   @Override public IBinder onBind(Intent intent) {
-    Timber.d("OnBind service");
     return messenger.getBinder();
   }
 
@@ -69,7 +68,7 @@ public class WindFishStateService extends Service implements WindFishState.Liste
       try {
         notifyClient(windFishIsEnabled, clients.get(n));
       } catch (RemoteException e) {
-        Timber.e(e, "Couldn't notify client");
+        Log.e(TAG, "Couldn't notify client", e);
         clients.remove(n);
       }
     }

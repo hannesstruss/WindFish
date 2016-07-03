@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 24
-  buildToolsVersion "24.0.0"
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
 
   defaultConfig {
     applicationId "de.hannesstruss.windfish"
     minSdkVersion 24
-    targetSdkVersion 24
-    versionCode 1
-    versionName "1.0"
+    targetSdkVersion rootProject.ext.targetSdkVersion
+    versionCode Integer.parseInt(VERSION_CODE)
+    versionName VERSION_NAME
   }
   buildTypes {
     release {
@@ -21,5 +21,4 @@ android {
 
 dependencies {
   compile project(':common')
-  compile 'de.hannesstruss.schmutils:schmutils-timberrr:0.2'
 }
