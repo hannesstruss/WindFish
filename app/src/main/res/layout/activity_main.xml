@@ -27,4 +27,13 @@
         tools:ignore="HardcodedText"
         />
 
+    <Button
+        android:id="@+id/btn_help_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="But I don't know how!"
+        style="@android:style/Widget.Material.Button.Borderless.Colored"
+        tools:ignore="HardcodedText"
+        />
+
 </LinearLayout>
