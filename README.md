@@ -36,6 +36,6 @@ And that's it!
 
 ##
 
- [quicksettings-docs]: https://developer.android.com/reference/android/service/quicksettings/Tile.html
+ [quicksettings-docs]: https://youtu.be/AuuIB4cT2SA
  [companion]: https://github.com/hannesstruss/WindFish/releases
 
