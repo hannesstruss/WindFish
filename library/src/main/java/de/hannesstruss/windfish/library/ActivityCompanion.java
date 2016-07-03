@@ -11,6 +11,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import de.hannesstruss.windfish.common.Constants;
 
@@ -52,6 +53,10 @@ class ActivityCompanion {
         Service.BIND_AUTO_CREATE);
 
     Log.d(TAG, String.format("Attempt successful: %s", couldConnect));
+
+    if (!couldConnect) {
+      Toast.makeText(activity, "Couldn't connect to WindFish service. Did you install the companion app?", Toast.LENGTH_LONG).show();
+    }
   }
 
   public void destroy() {
