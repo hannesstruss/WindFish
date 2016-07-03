@@ -8,9 +8,11 @@ import de.hannesstruss.windfish.library.WindFishCallbacks;
 
 public class MainActivity extends AppCompatActivity implements WindFishCallbacks {
   private static final String ZZZ = "\uD83D\uDCA4";
+  private static final String COFFEE = "☕";
   private static final String WHALE = "\uD83D\uDC33";
 
   private TextView txtStatus;
+  private TextView txtDescription;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +20,17 @@ public class MainActivity extends AppCompatActivity implements WindFishCallbacks
     setContentView(R.layout.activity_main);
 
     txtStatus = (TextView) findViewById(R.id.txt_status);
+    txtDescription = (TextView) findViewById(R.id.txt_description);
   }
 
   @Override public void onWindFishStateChanged(boolean keepScreenOn) {
-    String text = WHALE + (keepScreenOn ? "" : ZZZ);
+    String text = WHALE + (keepScreenOn
+        ? COFFEE
+        : ZZZ);
     txtStatus.setText(text);
+
+    txtDescription.setText(keepScreenOn
+        ? "Screen will stay on!"
+        : "Screen will turn off.");
   }
 }
