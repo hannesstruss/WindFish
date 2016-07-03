@@ -34,6 +34,13 @@ public class MyApplication extends Application {
 
 And that's it! See [the video of WindFish in action. :tv:][quicksettings-docs]
 
+## How it works
+
+The [companion app][companion], that also contains the Quick Settings Tile, exports
+a service that the library binds to. When the Tile is activated, the service sends a
+message to the library in your app, which calls `getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);`.
+That's all there is to it.
+
 ## License
 
     Copyright 2016 Hannes Struss
