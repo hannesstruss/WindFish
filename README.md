@@ -3,7 +3,7 @@
 *"Why? I have no idea, I'm just a kid!"*
 
 WindFish is a library for Android developers that will keep your device awake while
-your app is in focus, and lets you toggle that behavior with a [QuickSettings Tile][quicksettings-docs].
+your app is in focus, and lets you toggle that behavior with a [Quick Settings Tile][help-video].
 
 Unlike the *Stay awake* developer setting, you don't have to turn off WindFish at the end of the day.
 
@@ -32,7 +32,7 @@ public class MyApplication extends Application {
 }
 ```
 
-And that's it! See [the video of WindFish in action. :tv:][quicksettings-docs]
+And that's it! See [the video of WindFish in action. :tv:][help-video]
 
 ## How it works
 
