@@ -9,7 +9,7 @@ Unlike the *Stay awake* developer setting, you don't have to turn off WindFish a
 
 ## How to use
 
-First, install the [QuickSettings Tile][companion].
+First, install the QuickSettings Tile :point_right: [APK][companion].
 
 Then, add the library to your project:
 
