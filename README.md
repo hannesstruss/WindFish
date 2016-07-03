@@ -4,7 +4,7 @@
 
 WindFish is a library for Android developers that will keep your device awake while
 your app is in focus, and lets you toggle that behavior with a [Quick Settings Tile][help-video]
-(Requires Android N).
+(requires Android N).
 
 Unlike the *Stay awake* developer setting, you don't have to turn off WindFish at the end of the day.
 No more digging deep in settings, no more brightly lit phones on your nightstand so far away from your bed.
