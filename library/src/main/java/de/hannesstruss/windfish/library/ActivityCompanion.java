@@ -51,9 +51,9 @@ class ActivityCompanion {
     boolean couldConnect = activity.bindService(intent, serviceConnection,
         Service.BIND_AUTO_CREATE);
 
-    Log.d(TAG, String.format("Attempt successful: %s", couldConnect));
-
-    if (!couldConnect) {
+    if (couldConnect) {
+      Log.d(TAG, "Connected to WindFish service");
+    } else {
       Log.w(TAG, "Couldn't connect to WindFish service. Did you install the companion app?");
     }
   }
@@ -70,12 +70,14 @@ class ActivityCompanion {
 
   void onWindFishDisabled() {
     if (activity != null) {
+      Log.i(TAG, "Disabled WindFish");
       keepScreenOn(false);
     }
   }
 
   void onWindFishEnabled() {
     if (activity != null) {
+      Log.i(TAG, "Enabled WindFish");
       keepScreenOn(true);
     }
   }
@@ -105,7 +107,6 @@ class ActivityCompanion {
         return;
       }
 
-      Log.d(TAG, "Got message: " + msg.what);
       switch (msg.what) {
         case Constants.MSG_WINDFISH_DISABLED:
           activityCompanion.onWindFishDisabled();
