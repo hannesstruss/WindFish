@@ -17,7 +17,7 @@ Then, add the library to your project:
 
 ```groovy
 dependencies {
-  debugCompile 'de.hannesstruss.windfish:windfish-library:+'
+  compile 'de.hannesstruss.windfish:windfish-library:+'
 }
 
 ```
