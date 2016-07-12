@@ -1,5 +1,10 @@
 # Changes
 
+## 1.2.1 (2016-07-12)
+
+- Nicer logging
+- Fixed an NPE
+
 ## 1.2 (2016-07-04)
 
 - That toast is annoying! Just Log.w instead.
