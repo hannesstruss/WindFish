@@ -69,28 +69,26 @@ class ActivityCompanion {
   }
 
   void onWindFishDisabled() {
-    if (activity != null) {
-      Log.i(TAG, "Disabled WindFish");
-      keepScreenOn(false);
-    }
+    Log.i(TAG, "Disabled WindFish");
+    keepScreenOn(false);
   }
 
   void onWindFishEnabled() {
-    if (activity != null) {
-      Log.i(TAG, "Enabled WindFish");
-      keepScreenOn(true);
-    }
+    Log.i(TAG, "Enabled WindFish");
+    keepScreenOn(true);
   }
 
   private void keepScreenOn(boolean keepOn) {
-    if (keepOn) {
-      activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    } else {
-      activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-    }
+    if (activity != null) {
+      if (keepOn) {
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+      } else {
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+      }
 
-    if (activity instanceof WindFishCallbacks) {
-      ((WindFishCallbacks) activity).onWindFishStateChanged(keepOn);
+      if (activity instanceof WindFishCallbacks) {
+        ((WindFishCallbacks) activity).onWindFishStateChanged(keepOn);
+      }
     }
   }
 
