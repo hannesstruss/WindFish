@@ -1,7 +1,9 @@
 package de.hannesstruss.windfishsample;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import de.hannesstruss.windfish.library.WindFishCallbacks;
@@ -21,6 +23,13 @@ public class MainActivity extends AppCompatActivity implements WindFishCallbacks
 
     txtStatus = (TextView) findViewById(R.id.txt_status);
     txtDescription = (TextView) findViewById(R.id.txt_description);
+
+    txtStatus.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, OtherActivity.class);
+        startActivity(intent);
+      }
+    });
   }
 
   @Override public void onWindFishStateChanged(boolean keepScreenOn) {
