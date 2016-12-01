@@ -60,10 +60,10 @@ class ActivityCompanion {
 
   void destroy() {
     keepScreenOn(false);
-    if (service != null) {
-      service = null;
+    if (activity != null) {
       activity.unbindService(serviceConnection);
     }
+    service = null;
     incomingHandler.dispose();
     activity = null;
   }
