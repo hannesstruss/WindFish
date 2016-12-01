@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
@@ -18,6 +19,7 @@ class ActivityCompanion {
   private static final String TAG = "WindFish";
   private static final String WINDFISH_PKG = "de.hannesstruss.windfish";
   private static final String WINDFISH_STATE_SERVICE = "de.hannesstruss.windfish.WindFishStateService";
+  private static final long UNBIND_DELAY = 500;
 
   private Activity activity;
   private Messenger service;
@@ -60,12 +62,19 @@ class ActivityCompanion {
 
   void destroy() {
     keepScreenOn(false);
-    if (activity != null) {
-      activity.unbindService(serviceConnection);
-    }
-    service = null;
-    incomingHandler.dispose();
-    activity = null;
+
+    // Wait until unbind to prevent memory leaks
+    // http://stackoverflow.com/questions/6393215/memory-leak-managing-service-connection-in-activity-onresume-onpause
+    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+      @Override public void run() {
+        if (activity != null) {
+          activity.unbindService(serviceConnection);
+        }
+        service = null;
+        incomingHandler.dispose();
+        activity = null;
+      }
+    }, UNBIND_DELAY);
   }
 
   private void onWindFishDisabled() {
