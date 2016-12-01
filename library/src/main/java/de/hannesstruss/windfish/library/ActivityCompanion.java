@@ -43,7 +43,7 @@ class ActivityCompanion {
     }
   };
 
-  public void attach(Activity activity) {
+  void attach(Activity activity) {
     this.activity = activity;
 
     Intent intent = new Intent();
@@ -58,7 +58,7 @@ class ActivityCompanion {
     }
   }
 
-  public void destroy() {
+  void destroy() {
     keepScreenOn(false);
     if (service != null) {
       service = null;
@@ -68,12 +68,12 @@ class ActivityCompanion {
     activity = null;
   }
 
-  void onWindFishDisabled() {
+  private void onWindFishDisabled() {
     Log.i(TAG, "Disabled WindFish");
     keepScreenOn(false);
   }
 
-  void onWindFishEnabled() {
+  private void onWindFishEnabled() {
     Log.i(TAG, "Enabled WindFish");
     keepScreenOn(true);
   }
@@ -95,7 +95,7 @@ class ActivityCompanion {
   private static class IncomingHandler extends Handler {
     private ActivityCompanion activityCompanion;
 
-    public IncomingHandler(ActivityCompanion activityCompanion) {
+    IncomingHandler(ActivityCompanion activityCompanion) {
       this.activityCompanion = activityCompanion;
     }
 
