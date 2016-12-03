@@ -1,25 +1,19 @@
 package de.hannesstruss.windfish;
 
+import android.graphics.drawable.Icon;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
-import rx.Observable;
 import rx.Subscription;
 
 public class WindFishTileService extends TileService {
   private WindFishState state;
-  private Observable<Boolean> isEnabled;
   private Subscription stateSubscription;
 
   @Override public void onCreate() {
     super.onCreate();
 
     state = ((WindFishApp) getApplicationContext()).state();
-    isEnabled = state
-        .isEnabled()
-        .startWith(false)
-        .replay(1)
-        .refCount();
   }
 
   @Override public void onDestroy() {
@@ -31,7 +25,7 @@ public class WindFishTileService extends TileService {
 
   @Override public void onStartListening() {
     super.onStartListening();
-    stateSubscription = isEnabled.subscribe(this::updateTile);
+    stateSubscription = state.mode().subscribe(this::updateTile);
   }
 
   @Override public void onClick() {
@@ -39,10 +33,17 @@ public class WindFishTileService extends TileService {
     state.toggle();
   }
 
-  private void updateTile(boolean isEnabled) {
+  private void updateTile(WindFishState.Mode mode) {
     Tile tile = getQsTile();
 
-    tile.setState(isEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+    tile.setState(mode != WindFishState.Mode.ALWAYS_OFF
+        ? Tile.STATE_ACTIVE
+        : Tile.STATE_INACTIVE);
+
+    int iconRes = mode == WindFishState.Mode.ON_WHEN_CHARGING
+        ? R.drawable.tile_power
+        : R.drawable.tile;
+    tile.setIcon(Icon.createWithResource(getApplicationContext(), iconRes));
 
     tile.updateTile();
   }

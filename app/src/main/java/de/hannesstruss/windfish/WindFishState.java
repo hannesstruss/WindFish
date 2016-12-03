@@ -13,7 +13,7 @@ import rx.functions.Func1;
 class WindFishState {
   private final RxPowerStatus powerStatus;
 
-  private enum Mode {
+  enum Mode {
     ALWAYS_OFF, ON_WHEN_CHARGING, ALWAYS_ON
   }
 
@@ -39,7 +39,7 @@ class WindFishState {
   }
 
   Observable<Boolean> isEnabled() {
-    Observable<Mode> modes = mode.asObservable().map(Mode::valueOf);
+    Observable<Mode> modes = mode.asObservable().map(TO_MODE);
     Observable<Boolean> powerConnected = powerStatus.isCharging();
 
     return Observable.combineLatest(modes, powerConnected, (mode, isCharging) -> {
@@ -51,6 +51,10 @@ class WindFishState {
         return isCharging;
       }
     });
+  }
+
+  Observable<Mode> mode() {
+    return mode.asObservable().map(TO_MODE);
   }
 
   void toggle() {
