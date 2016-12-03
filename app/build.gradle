@@ -34,5 +34,6 @@ dependencies {
   compile project(':common')
 
   compile deps.rxjava
+  compile deps.rxAndroid
   compile deps.rxSharedPreferences
 }
