@@ -29,10 +29,6 @@ public class WindFishTileService extends TileService {
     }
   }
 
-  @Override public void onTileAdded() {
-    super.onTileAdded();
-  }
-
   @Override public void onStartListening() {
     super.onStartListening();
     stateSubscription = isEnabled.subscribe(this::updateTile);
