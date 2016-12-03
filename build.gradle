@@ -23,6 +23,8 @@ ext {
   compileSdkVersion = 24
   targetSdkVersion = 24
 
+  rxjava = 'io.reactivex:rxjava:1.2.3'
+
   appcompat = 'com.android.support:appcompat-v7:25.0.1'
 
   leakCanaryVersion = '1.5'

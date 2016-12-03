@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -18,12 +17,10 @@ public class MainActivity extends Activity {
     String hello = "\uD83D\uDC33";
     ((TextView) findViewById(R.id.textview)).setText(hello);
 
-    findViewById(R.id.btn_help_me).setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(HELP_URL));
-        startActivity(intent);
-      }
+    findViewById(R.id.btn_help_me).setOnClickListener(view -> {
+      Intent intent = new Intent(Intent.ACTION_VIEW);
+      intent.setData(Uri.parse(HELP_URL));
+      startActivity(intent);
     });
   }
 }
