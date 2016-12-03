@@ -24,6 +24,7 @@ ext {
   targetSdkVersion = 24
 
   rxjava = 'io.reactivex:rxjava:1.2.3'
+  rxSharedPreferences = 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
   appcompat = 'com.android.support:appcompat-v7:25.0.1'
 

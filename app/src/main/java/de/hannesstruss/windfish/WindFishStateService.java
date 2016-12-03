@@ -13,27 +13,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hannesstruss.windfish.common.Constants;
+import rx.Observable;
+import rx.Subscription;
 
-public class WindFishStateService extends Service implements WindFishState.Listener {
+public class WindFishStateService extends Service {
   private static final String TAG = WindFishStateService.class.getSimpleName();
 
   private final Messenger messenger = new Messenger(new IncomingHandler());
   private final List<Messenger> clients = new ArrayList<>();
 
-  private WindFishState state;
+  private Observable<Boolean> state;
+  private Subscription stateSubscription;
 
   @Override public void onCreate() {
     super.onCreate();
-    state = ((WindFishApp) getApplicationContext()).state();
-    state.addListener(this);
+    state = ((WindFishApp) getApplicationContext()).state().isEnabled()
+        .startWith(false).replay(1).refCount();
+    stateSubscription = state.subscribe(this::onStateChanged);
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
-    state.removeListener(this);
+    if (stateSubscription != null) {
+      stateSubscription.unsubscribe();
+    }
   }
 
-  @Override public void onStateChanged(boolean isEnabled) {
+  private void onStateChanged(boolean isEnabled) {
     notifyAllClients(isEnabled);
   }
 
@@ -64,13 +70,16 @@ public class WindFishStateService extends Service implements WindFishState.Liste
       super.handleMessage(msg);
       switch (msg.what) {
         case Constants.MSG_REGISTER_CLIENT:
-          try {
-            notifyClient(state.isEnabled(), msg.replyTo);
-            if (!clients.contains(msg.replyTo)) {
-              clients.add(msg.replyTo);
+          final Messenger replyTo = msg.replyTo;
+          state.subscribe(isEnabled -> {
+            try {
+              notifyClient(isEnabled, replyTo);
+            } catch (RemoteException e) {
+              Log.e(TAG, "Couldn't notify client", e);
             }
-          } catch (RemoteException e) {
-            Log.e(TAG, "Couldn't notify client", e);
+          });
+          if (!clients.contains(msg.replyTo)) {
+            clients.add(msg.replyTo);
           }
           break;
 
