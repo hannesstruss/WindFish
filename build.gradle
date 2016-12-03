@@ -22,6 +22,12 @@ ext {
   buildToolsVersion = "24.0.0"
   compileSdkVersion = 24
   targetSdkVersion = 24
+
+  appcompat = 'com.android.support:appcompat-v7:25.0.1'
+
+  leakCanaryVersion = '1.5'
+  leakCanaryAndroid = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+  leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
 }
 
 task clean(type: Delete) {

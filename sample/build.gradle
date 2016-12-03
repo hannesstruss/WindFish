@@ -20,11 +20,13 @@ android {
 }
 
 dependencies {
+  def deps = rootProject.ext
+
   compile project(':common')
   compile project(':library')
-  compile 'com.android.support:appcompat-v7:25.0.1'
+  compile deps.appcompat
 
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-  releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-  testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+  debugCompile deps.leakCanaryAndroid
+  releaseCompile deps.leakCanaryNoOp
+  testCompile deps.leakCanaryNoOp
 }
