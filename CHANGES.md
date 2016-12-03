@@ -1,5 +1,9 @@
 # Changes
 
+## 1.2.2 (2016-12-03)
+
+- Fixed memory leak when binding and unbinding to service too fast
+
 ## 1.2.1 (2016-07-12)
 
 - Nicer logging
