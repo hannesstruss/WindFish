@@ -37,28 +37,6 @@ public class WindFishStateService extends Service implements WindFishState.Liste
     notifyAllClients(isEnabled);
   }
 
-  class IncomingHandler extends Handler {
-    @Override public void handleMessage(Message msg) {
-      super.handleMessage(msg);
-      switch (msg.what) {
-        case Constants.MSG_REGISTER_CLIENT:
-          try {
-            notifyClient(state.isEnabled(), msg.replyTo);
-            if (!clients.contains(msg.replyTo)) {
-              clients.add(msg.replyTo);
-            }
-          } catch (RemoteException e) {
-            Log.e(TAG, "Couldn't notify client", e);
-          }
-          break;
-
-        case Constants.MSG_UNREGISTER_CLIENT:
-          clients.remove(msg.replyTo);
-          break;
-      }
-    }
-  }
-
   @Override public IBinder onBind(Intent intent) {
     return messenger.getBinder();
   }
@@ -79,5 +57,27 @@ public class WindFishStateService extends Service implements WindFishState.Liste
         ? Constants.MSG_WINDFISH_ENABLED
         : Constants.MSG_WINDFISH_DISABLED);
     client.send(msg);
+  }
+
+  class IncomingHandler extends Handler {
+    @Override public void handleMessage(Message msg) {
+      super.handleMessage(msg);
+      switch (msg.what) {
+        case Constants.MSG_REGISTER_CLIENT:
+          try {
+            notifyClient(state.isEnabled(), msg.replyTo);
+            if (!clients.contains(msg.replyTo)) {
+              clients.add(msg.replyTo);
+            }
+          } catch (RemoteException e) {
+            Log.e(TAG, "Couldn't notify client", e);
+          }
+          break;
+
+        case Constants.MSG_UNREGISTER_CLIENT:
+          clients.remove(msg.replyTo);
+          break;
+      }
+    }
   }
 }
