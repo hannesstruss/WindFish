@@ -4,45 +4,79 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.f2prateek.rx.preferences.Preference;
+import com.f2prateek.rx.preferences.RxSharedPreferences;
+
+import rx.Observable;
+import rx.functions.Func1;
 
 class WindFishState {
-  private static final String KEY_ENABLED = "enabled";
+  private final RxPowerStatus powerStatus;
 
-  private final SharedPreferences sharedPreferences;
-  private final Set<Listener> listeners;
-
-  WindFishState(Application context) {
-    this.sharedPreferences = context.getSharedPreferences("windfish_state.prefs", Context.MODE_PRIVATE);
-    listeners = new LinkedHashSet<>();
+  enum Mode {
+    ALWAYS_OFF, ON_WHEN_CHARGING, ALWAYS_ON
   }
 
-  boolean isEnabled() {
-    return sharedPreferences.getBoolean(KEY_ENABLED, false);
-  }
+  private static final String KEY_MODE = "mode";
 
-  private void setEnabled(boolean enabled) {
-    sharedPreferences.edit().putBoolean(KEY_ENABLED, enabled).apply();
-    
-    for (Listener listener : listeners) {
-      listener.onStateChanged(enabled);
+  private static final Func1<String, Mode> TO_MODE = (name) -> {
+    try {
+      return Mode.valueOf(name);
+    } catch (IllegalArgumentException e) {
+      return Mode.ALWAYS_OFF;
     }
+  };
+
+  private final Preference<String> mode;
+
+  WindFishState(Application context, RxPowerStatus powerStatus) {
+    this.powerStatus = powerStatus;
+
+    SharedPreferences sharedPreferences =
+        context.getSharedPreferences("windfish_state.prefs", Context.MODE_PRIVATE);
+    RxSharedPreferences rxPrefs = RxSharedPreferences.create(sharedPreferences);
+    mode = rxPrefs.getString(KEY_MODE, Mode.ALWAYS_OFF.name());
   }
-  
-  void addListener(Listener listener) {
-    listeners.add(listener);
+
+  Observable<Boolean> isEnabled() {
+    Observable<Mode> modes = mode.asObservable().map(TO_MODE);
+    Observable<Boolean> powerConnected = powerStatus.isCharging();
+
+    return Observable.combineLatest(modes, powerConnected, (mode, isCharging) -> {
+      if (mode == Mode.ALWAYS_ON) {
+        return true;
+      } else if (mode == Mode.ALWAYS_OFF) {
+        return false;
+      } else {
+        return isCharging;
+      }
+    });
+  }
+
+  Observable<Mode> mode() {
+    return mode.asObservable().map(TO_MODE);
   }
 
   void toggle() {
-    setEnabled(!isEnabled());
+    mode.asObservable()
+        .first()
+        .map(TO_MODE)
+        .subscribe(mode -> {
+          Mode nextMode;
+          if (mode == Mode.ALWAYS_OFF) {
+            nextMode = Mode.ON_WHEN_CHARGING;
+          } else if (mode == Mode.ON_WHEN_CHARGING) {
+            nextMode = Mode.ALWAYS_ON;
+          } else if (mode == Mode.ALWAYS_ON) {
+            nextMode = Mode.ALWAYS_OFF;
+          } else {
+            throw new AssertionError();
+          }
+          setMode(nextMode);
+        });
   }
 
-  void removeListener(Listener listener) {
-    listeners.remove(listener);
-  }
-
-  interface Listener {
-    void onStateChanged(boolean isEnabled);
+  private void setMode(Mode nextMode) {
+    mode.set(nextMode.name());
   }
 }

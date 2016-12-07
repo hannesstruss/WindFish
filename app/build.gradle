@@ -1,4 +1,9 @@
+plugins {
+  id "me.tatarka.retrolambda" version "3.4.0"
+}
+
 apply plugin: 'com.android.application'
+
 
 android {
   compileSdkVersion rootProject.ext.compileSdkVersion
@@ -17,10 +22,18 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 dependencies {
+  def deps = rootProject.ext
+
   compile project(':common')
 
-
+  compile deps.rxjava
+  compile deps.rxAndroid
+  compile deps.rxSharedPreferences
 }

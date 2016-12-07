@@ -1,5 +1,9 @@
 # Changes
 
+## 1.3 (2016-12-07)
+
+- Added a third tile state: Only keep device awake while charging
+
 ## 1.2.2 (2016-12-03)
 
 - Fixed memory leak when binding and unbinding to service too fast
