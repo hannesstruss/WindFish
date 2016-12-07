@@ -1,6 +1,6 @@
 # Changes
 
-## 1.3 (upcoming)
+## 1.3 (2016-12-07)
 
 - Added a third tile state: Only keep device awake while charging
 
